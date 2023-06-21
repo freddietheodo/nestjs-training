@@ -1,2 +1,9 @@
-./dist
-./node_modules
+dist
+node_modules
+node_modules/
+**node_modules
+/node_modules
+
+.DS_Store
+
+nest-pokemon-training/package-lock.json
