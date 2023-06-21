@@ -1,12 +1,2 @@
-dist
-
-node_modules
-node_modules/
-**node_modules
-/node_modules
-
-.DS_Store
-
-./package-lock.json
-
-coverage/
+./dist
+./node_modules
