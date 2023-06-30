@@ -4,8 +4,8 @@ import { PokemonsController } from "./pokemons.controller";
 import { PrismaModule } from "src/prisma/prisma.module";
 
 @Module({
+  imports: [PrismaModule],
   controllers: [PokemonsController],
   providers: [PokemonsService],
-  imports: [PrismaModule],
 })
 export class PokemonsModule {}
