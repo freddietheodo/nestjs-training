@@ -12,7 +12,7 @@ export class PokemonsService {
   }
 
   findAll() {
-    return this.prisma.pokemon.findAll();
+    return this.prisma.pokemon.findMany();
   }
 
   findOne(id: number) {
