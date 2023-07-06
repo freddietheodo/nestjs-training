@@ -8,13 +8,16 @@ datasource db {
 }
 
 model Pokemon {
-  id   Int    @id
-  name String
-  url  String
-  level Int   @default(1)
+  id    Int           @id
+  name  String
+  url   String
+  level Int           @default(1)
+  types PokemonType[]
 }
 
 model PokemonType {
-  id Int @id
-  typeName String
+  id        Int      @id
+  typeName  String
+  Pokemon   Pokemon[]
+  // pokemonId Int?
 }

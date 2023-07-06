@@ -1,10 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { CreatePokemonTypeDto } from "./dto/create-pokemon-type.dto";
 import { UpdatePokemonTypeDto } from "./dto/update-pokemon-type.dto";
+import { PrismaService } from "src/prisma/prisma.service";
 
 @Injectable()
 export class PokemonTypesService {
-  constructor(private readonly pokemonsTypesService: PokemonTypesService) {}
+  constructor(private prisma: PrismaService) {}
   create(createPokemonTypeDto: CreatePokemonTypeDto) {
     return "This action adds a new pokemonType";
   }
