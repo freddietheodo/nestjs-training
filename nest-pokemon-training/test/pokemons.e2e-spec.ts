@@ -1,35 +1,70 @@
-import * as request from "supertest";
 import { Test } from "@nestjs/testing";
-import { PokemonsModule } from "../src/pokemons/pokemons.module";
-import { PokemonsService } from "../src/pokemons/pokemons.service";
 import { INestApplication } from "@nestjs/common";
+import * as request from "supertest";
+import { PrismaService } from "../src/prisma/prisma.service"; // Import the Prisma service
+import { PokemonsModule } from "../src/pokemons/pokemons.module";
 
-describe("Pokemons", () => {
+describe("PokemonsController (e2e)", () => {
   let app: INestApplication;
-  let pokemonsService = {
-    findAll: () => ["test"],
-  };
+  let prismaService: PrismaService;
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [PokemonsModule],
-    })
-      .overrideProvider(PokemonsService)
-      .useValue(pokemonsService)
-      .compile();
+    }).compile();
 
     app = moduleRef.createNestApplication();
-    await app.init();
-  });
+    prismaService = moduleRef.get<PrismaService>(PrismaService);
 
-  it(`/GET pokemons`, () => {
-    return request(app.getHttpServer())
-      .get("/pokemons")
-      .expect(200)
-      .expect(pokemonsService.findAll()); // Why did the example thing I would get {data: ["test"]}
+    await app.init();
   });
 
   afterAll(async () => {
     await app.close();
+  });
+
+  beforeEach(async () => {
+    await prismaService.$connect();
+  });
+
+  afterEach(async () => {
+    await prismaService.$disconnect();
+  });
+
+  it("/pokemons (DELETE)", async () => {
+    const deletedPokemonID = "500";
+
+    const response = await request(app.getHttpServer())
+      .delete("/pokemons")
+      .send(deletedPokemonID);
+
+    expect(response.status).toBe(201);
+    // expect(response.body).toMatchObject(newPokemon);
+
+    const createdPokemon = await prismaService.pokemon.findUnique({
+      where: { id: 500 },
+    });
+    expect(createdPokemon).toBe(null);
+  });
+
+  it("/pokemons (POST)", async () => {
+    const newPokemon = {
+      id: 500,
+      name: "Pikachu",
+      url: "https://pokeapi.co/api/v2/pokemon/Pikachu/",
+    };
+
+    const response = await request(app.getHttpServer())
+      .post("/pokemons")
+      .send(newPokemon);
+
+    expect(response.status).toBe(201);
+    expect(response.body).toMatchObject(newPokemon);
+
+    const createdPokemon = await prismaService.pokemon.findUnique({
+      where: { id: 500 },
+    });
+    expect(createdPokemon).toBeTruthy();
+    expect(createdPokemon).toMatchObject(newPokemon);
   });
 });
