@@ -21,3 +21,5 @@ model PokemonType {
   Pokemon   Pokemon[]
   // pokemonId Int?
 }
+
+
