@@ -1,20 +1,26 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { PokemonsController } from './pokemons.controller';
-import { PokemonsService } from './pokemons.service';
+// pokemons.controller.spec.ts
 
-describe('PokemonsController', () => {
-  let controller: PokemonsController;
+import { PokemonsController } from "./pokemons.controller";
+import { PokemonsService } from "./pokemons.service";
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [PokemonsController],
-      providers: [PokemonsService],
-    }).compile();
+describe("PokemonsController", () => {
+  let pokemonsController: PokemonsController;
+  let pokemonsService: PokemonsService;
 
-    controller = module.get<PokemonsController>(PokemonsController);
+  beforeEach(() => {
+    pokemonsService = new PokemonsService(null);
+    pokemonsController = new PokemonsController(pokemonsService);
   });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
+  describe("findAll", () => {
+    it("should call the findAll method in PokemonsService", async () => {
+      const findAllMock = jest
+        .spyOn(pokemonsService, "findAll")
+        .mockResolvedValue([]);
+
+      await pokemonsController.findAll();
+
+      expect(findAllMock).toBeCalledTimes(1);
+    });
   });
 });
