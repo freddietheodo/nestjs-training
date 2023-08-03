@@ -1,11 +1,12 @@
 import { Processor, Process } from "@nestjs/bull";
+import { Job } from "bull";
 
-@Processor("shiny-pokemon")
-export class ShinyProcessor {
-  @Process()
-  async processMyJob(job: any) {
-    // Your job processing logic here
-    console.log("Processing job data:", job.data);
-    // For example, you can process data or call some service function here.
+@Processor("shinyPokemon")
+export class AudioConsumer {
+  @Process("shinyPokemon-job")
+  handleTranscode(job: Job) {
+    console.log("Start audio compress into mp3...");
+    console.log(job.data);
+    console.log("completed!!");
   }
 }

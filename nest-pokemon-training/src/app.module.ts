@@ -12,11 +12,13 @@ import { BullModule } from "@nestjs/bull";
     PrismaModule,
     PokemonsModule,
     PokemonTypesModule,
-    BullModule.forRoot({
-      redis: {
-        host: "localhost",
-        port: 5342,
-      },
+    BullModule.forRootAsync({
+      useFactory: () => ({
+        redis: {
+          host: "localhost",
+          port: 6379,
+        },
+      }),
     }),
   ],
   controllers: [AppController],

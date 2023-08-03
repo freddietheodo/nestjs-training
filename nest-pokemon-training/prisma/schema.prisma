@@ -23,3 +23,21 @@ model PokemonType {
 }
 
 
+
+model CardDetails {
+  cardNumber Int @id
+  cardCVC Int 
+  cardExpiraryDate String
+}
+
+
+model Trainer {
+  trainerID Int @id
+  pokemon
+}
+
+model ShinyPokemon {
+  pokemonSpeciesID Int @id
+  paymentDetails CardDetails
+}
+
