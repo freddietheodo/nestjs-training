@@ -10,14 +10,27 @@ import {
 import { PokemonsService } from "./pokemons.service";
 import { CreatePokemonDto } from "./dto/create-pokemon.dto";
 import { UpdatePokemonDto } from "./dto/update-pokemon.dto";
+import { Queue } from "bull";
+import { InjectQueue } from "@nestjs/bull";
+import { CreateShinyDto } from "./dto/create-shiny.dto";
 
 @Controller("pokemons")
 export class PokemonsController {
-  constructor(private readonly pokemonsService: PokemonsService) {}
+  constructor(
+    private readonly pokemonsService: PokemonsService,
+    @InjectQueue("shiny-pokemon") private readonly shinyPokemonQueue: Queue
+  ) {}
 
   @Post()
   create(@Body() createPokemonDto: CreatePokemonDto) {
     return this.pokemonsService.create(createPokemonDto);
+  }
+
+  @Post()
+  async transcode() {
+    await this.shinyPokemonQueue.add("shinyPokemon-job", {
+      pokemonSpeciesId: 1,
+    });
   }
 
   @Get()
