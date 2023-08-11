@@ -2,11 +2,13 @@ import { Processor, Process } from "@nestjs/bull";
 import { Job } from "bull";
 
 @Processor("shinyPokemon")
-export class AudioConsumer {
+export class ShinyPokemonProcessor {
   @Process("shinyPokemon-job")
   handleTranscode(job: Job) {
-    console.log("Start audio compress into mp3...");
-    console.log(job.data);
-    console.log("completed!!");
+    const start = new Date().getTime();
+    for (let i = 0; i < 12_000_000_000; i++) {}
+    const end = new Date().getTime();
+    console.log("✨✨✨✨✨✨✨✨✨");
+    console.log(`Generated a shiny pokemon in ${end - start}ms`);
   }
 }

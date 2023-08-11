@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { BullModule } from "@nestjs/bull";
-import { shinyPokemon } from "./shiny-pokemon.processor";
+import { ShinyPokemonProcessor } from "./shiny-pokemon.processor";
 
 @Module({
   imports: [
@@ -8,6 +8,6 @@ import { shinyPokemon } from "./shiny-pokemon.processor";
       name: "shinyPokemon",
     }),
   ],
-  providers: [shinyProcessor],
+  providers: [ShinyPokemonProcessor],
 })
 export class ShinyModule {}
