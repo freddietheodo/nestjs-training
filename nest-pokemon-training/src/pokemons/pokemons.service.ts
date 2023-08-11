@@ -25,11 +25,6 @@ export class PokemonsService {
   createShiny(createShinyDto: CreateShinyDto) {
     const prismaData: Prisma.ShinyPokemonCreateInput = {
       pokemonSpeciesID: createShinyDto.pokemonSpeciesId,
-      // paymentDetails: {
-      //   cardNumber: createShinyDto.paymentDetails.cardNumber,
-      //   cardCVC: createShinyDto.paymentDetails.cardCVC,
-      //   cardExpiryDate: createShinyDto.paymentDetails.cardExpiryDate,
-      // },
     };
 
     const createdPokemon = this.prisma.shinyPokemon.create({

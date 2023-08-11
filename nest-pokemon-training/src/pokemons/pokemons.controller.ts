@@ -29,7 +29,7 @@ export class PokemonsController {
   @Post()
   async transcode() {
     await this.shinyPokemonQueue.add("shinyPokemon-job", {
-      file: "audio.mp3",
+      pokemonSpeciesId: 1,
     });
   }
 
